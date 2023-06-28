@@ -4,58 +4,46 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:video_camera/video_camera.dart';
 
+import 'lcopen_page.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(const MyAppAre());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _videoCameraPlugin = VideoCamera();
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion =
-          await _videoCameraPlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
+class MyAppAre extends StatelessWidget {
+  const MyAppAre({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+    return const MaterialApp(
+      home: IndexPage(),
+    );
+  }
+}
+class IndexPage extends StatelessWidget {
+  const IndexPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('视频播放示例'),
+      ),
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Column(
+          children: [
+            ElevatedButton(
+                onPressed: () {},
+                child: Text('萤石云')
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (ctx) => const LCOpenPage()));
+                },
+                child: Text('乐橙云')
+            ),
+          ],
         ),
       ),
     );
